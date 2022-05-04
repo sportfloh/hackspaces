@@ -95,8 +95,9 @@
 			isa = PBXGroup;
 			children = (
 				DF7A404928231FFD0040310A /* HackspacesApp.swift */,
-				DF7A404B28231FFD0040310A /* ContentView.swift */,
-				DF7A404D28231FFE0040310A /* Assets.xcassets */,
+				DF7A4073282324A50040310A /* Views */,
+				DF7A4075282324EE0040310A /* Models */,
+				DF7A4074282324B70040310A /* Resources */,
 				DF7A404F28231FFE0040310A /* Preview Content */,
 			);
 			path = Hackspaces;
@@ -125,6 +126,29 @@
 				DF7A406628231FFE0040310A /* HackspacesUITestsLaunchTests.swift */,
 			);
 			path = HackspacesUITests;
+			sourceTree = "<group>";
+		};
+		DF7A4073282324A50040310A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DF7A404B28231FFD0040310A /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DF7A4074282324B70040310A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				DF7A404D28231FFE0040310A /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		DF7A4075282324EE0040310A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
