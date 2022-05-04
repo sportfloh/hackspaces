@@ -7,8 +7,9 @@
 
 import XCTest
 
-class hackspacesUITestsLaunchTests: XCTestCase {
+// MARK: -
 
+class hackspacesUITestsLaunchTests: XCTestCase {
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }

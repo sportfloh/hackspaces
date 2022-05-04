@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DF7A404A28231FFD0040310A /* hackspacesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7A404928231FFD0040310A /* hackspacesApp.swift */; };
+		DF7A404A28231FFD0040310A /* HackspacesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7A404928231FFD0040310A /* HackspacesApp.swift */; };
 		DF7A404C28231FFD0040310A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7A404B28231FFD0040310A /* ContentView.swift */; };
 		DF7A404E28231FFE0040310A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF7A404D28231FFE0040310A /* Assets.xcassets */; };
 		DF7A405128231FFE0040310A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DF7A405028231FFE0040310A /* Preview Assets.xcassets */; };
-		DF7A405B28231FFE0040310A /* hackspacesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7A405A28231FFE0040310A /* hackspacesTests.swift */; };
-		DF7A406528231FFE0040310A /* hackspacesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7A406428231FFE0040310A /* hackspacesUITests.swift */; };
-		DF7A406728231FFE0040310A /* hackspacesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7A406628231FFE0040310A /* hackspacesUITestsLaunchTests.swift */; };
+		DF7A405B28231FFE0040310A /* HackspacesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7A405A28231FFE0040310A /* HackspacesTests.swift */; };
+		DF7A406528231FFE0040310A /* HackspacesUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7A406428231FFE0040310A /* HackspacesUITests.swift */; };
+		DF7A406728231FFE0040310A /* HackspacesUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF7A406628231FFE0040310A /* HackspacesUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,15 +35,15 @@
 
 /* Begin PBXFileReference section */
 		DF7A404628231FFD0040310A /* hackspaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hackspaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DF7A404928231FFD0040310A /* hackspacesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hackspacesApp.swift; sourceTree = "<group>"; };
+		DF7A404928231FFD0040310A /* HackspacesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackspacesApp.swift; sourceTree = "<group>"; };
 		DF7A404B28231FFD0040310A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DF7A404D28231FFE0040310A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF7A405028231FFE0040310A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DF7A405628231FFE0040310A /* hackspacesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hackspacesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DF7A405A28231FFE0040310A /* hackspacesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hackspacesTests.swift; sourceTree = "<group>"; };
+		DF7A405A28231FFE0040310A /* HackspacesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackspacesTests.swift; sourceTree = "<group>"; };
 		DF7A406028231FFE0040310A /* hackspacesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hackspacesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DF7A406428231FFE0040310A /* hackspacesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hackspacesUITests.swift; sourceTree = "<group>"; };
-		DF7A406628231FFE0040310A /* hackspacesUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hackspacesUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DF7A406428231FFE0040310A /* HackspacesUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackspacesUITests.swift; sourceTree = "<group>"; };
+		DF7A406628231FFE0040310A /* HackspacesUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HackspacesUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,9 +74,9 @@
 		DF7A403D28231FFD0040310A = {
 			isa = PBXGroup;
 			children = (
-				DF7A404828231FFD0040310A /* hackspaces */,
-				DF7A405928231FFE0040310A /* hackspacesTests */,
-				DF7A406328231FFE0040310A /* hackspacesUITests */,
+				DF7A404828231FFD0040310A /* Hackspaces */,
+				DF7A405928231FFE0040310A /* HackspacesTests */,
+				DF7A406328231FFE0040310A /* HackspacesUITests */,
 				DF7A404728231FFD0040310A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -91,15 +91,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DF7A404828231FFD0040310A /* hackspaces */ = {
+		DF7A404828231FFD0040310A /* Hackspaces */ = {
 			isa = PBXGroup;
 			children = (
-				DF7A404928231FFD0040310A /* hackspacesApp.swift */,
+				DF7A404928231FFD0040310A /* HackspacesApp.swift */,
 				DF7A404B28231FFD0040310A /* ContentView.swift */,
 				DF7A404D28231FFE0040310A /* Assets.xcassets */,
 				DF7A404F28231FFE0040310A /* Preview Content */,
 			);
-			path = hackspaces;
+			path = Hackspaces;
 			sourceTree = "<group>";
 		};
 		DF7A404F28231FFE0040310A /* Preview Content */ = {
@@ -110,21 +110,21 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		DF7A405928231FFE0040310A /* hackspacesTests */ = {
+		DF7A405928231FFE0040310A /* HackspacesTests */ = {
 			isa = PBXGroup;
 			children = (
-				DF7A405A28231FFE0040310A /* hackspacesTests.swift */,
+				DF7A405A28231FFE0040310A /* HackspacesTests.swift */,
 			);
-			path = hackspacesTests;
+			path = HackspacesTests;
 			sourceTree = "<group>";
 		};
-		DF7A406328231FFE0040310A /* hackspacesUITests */ = {
+		DF7A406328231FFE0040310A /* HackspacesUITests */ = {
 			isa = PBXGroup;
 			children = (
-				DF7A406428231FFE0040310A /* hackspacesUITests.swift */,
-				DF7A406628231FFE0040310A /* hackspacesUITestsLaunchTests.swift */,
+				DF7A406428231FFE0040310A /* HackspacesUITests.swift */,
+				DF7A406628231FFE0040310A /* HackspacesUITestsLaunchTests.swift */,
 			);
-			path = hackspacesUITests;
+			path = HackspacesUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,7 +258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DF7A404C28231FFD0040310A /* ContentView.swift in Sources */,
-				DF7A404A28231FFD0040310A /* hackspacesApp.swift in Sources */,
+				DF7A404A28231FFD0040310A /* HackspacesApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,7 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF7A405B28231FFE0040310A /* hackspacesTests.swift in Sources */,
+				DF7A405B28231FFE0040310A /* HackspacesTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,8 +274,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DF7A406728231FFE0040310A /* hackspacesUITestsLaunchTests.swift in Sources */,
-				DF7A406528231FFE0040310A /* hackspacesUITests.swift in Sources */,
+				DF7A406728231FFE0040310A /* HackspacesUITestsLaunchTests.swift in Sources */,
+				DF7A406528231FFE0040310A /* HackspacesUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
