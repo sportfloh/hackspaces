@@ -9,7 +9,7 @@ import XCTest
 
 // MARK: -
 
-class hackspacesUITestsLaunchTests: XCTestCase {
+class HackspacesUITestsLaunchTests: XCTestCase {
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }
