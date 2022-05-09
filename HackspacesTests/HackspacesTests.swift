@@ -5,7 +5,7 @@
 //  Created by Florian Bruder on 04.05.22.
 //
 
-@testable import hackspaces
+@testable import Hackspaces
 import XCTest
 
 // MARK: -
