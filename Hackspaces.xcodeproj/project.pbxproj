@@ -78,8 +78,6 @@
 		DF7A403D28231FFD0040310A = {
 			isa = PBXGroup;
 			children = (
-				AA0D92BF2A8CD2BB0073C6F1 /* spaceapi.json */,
-				AA0D92BE2A8CD2BB0073C6F1 /* SpaceApiTypes.swift */,
 				DF7A404828231FFD0040310A /* Hackspaces */,
 				DF7A405928231FFE0040310A /* HackspacesTests */,
 				DF7A406328231FFE0040310A /* HackspacesUITests */,
@@ -145,6 +143,7 @@
 		DF7A4074282324B70040310A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AA0D92BF2A8CD2BB0073C6F1 /* spaceapi.json */,
 				DF7A404D28231FFE0040310A /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -153,6 +152,7 @@
 		DF7A4075282324EE0040310A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				AA0D92BE2A8CD2BB0073C6F1 /* SpaceApiTypes.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

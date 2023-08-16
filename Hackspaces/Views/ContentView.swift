@@ -10,7 +10,8 @@ import SwiftUI
 public func readLocalFile(forName name: String) -> Foundation.Data? {
     do {
         if let bundlePath = Bundle.main.path(forResource: name, ofType: "json"),
-           let jsonData = try String(contentsOfFile: bundlePath).data(using: .utf8) {
+           let jsonData = try String(contentsOfFile: bundlePath).data(using: .utf8)
+        {
             return jsonData
         }
     } catch {
@@ -19,10 +20,10 @@ public func readLocalFile(forName name: String) -> Foundation.Data? {
     return nil
 }
 
-public func parse(jsonData:Foundation.Data) {
+public func parse(jsonData: Foundation.Data) {
     do {
         let decodedData = try JSONDecoder().decode(SpaceApi.self, from: jsonData)
-        print("Data Api: ", decodedData.Data.api)
+        print("Data Api: ", decodedData.data.api)
         print("url: ", decodedData.url)
         print("====================")
     } catch {
@@ -31,13 +32,14 @@ public func parse(jsonData:Foundation.Data) {
 }
 
 public func loadjson(fromURLString urlString: String,
-                      completion: @escaping (Result<Foundation.Data, Error>) -> Void) {
+                     completion: @escaping (Result<Foundation.Data, Error>) -> Void)
+{
     if let url = URL(string: urlString) {
-        let urlSession = URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
+        let urlSession = URLSession(configuration: .default).dataTask(with: url) { data, _, error in
             if let error = error {
                 completion(.failure(error))
             }
-            
+
             if let data = data {
                 completion(.success(data))
             }
@@ -46,14 +48,13 @@ public func loadjson(fromURLString urlString: String,
     }
 }
 
-struct Hackspace: Hashable, Identifiable{
+struct Hackspace: Hashable, Identifiable {
     var id = UUID()
-    var image : String
-    var title : String
+    var image: String
+    var title: String
 }
 
 struct HackspaceListView: View {
-    
     var hackspaces: [Hackspace]
 
     var body: some View {
@@ -65,6 +66,7 @@ struct HackspaceListView: View {
             }
         }
     }
+
     init(hackspaces: [Hackspace]) {
         self.hackspaces = hackspaces
     }
@@ -72,31 +74,28 @@ struct HackspaceListView: View {
 
 struct FavoritesView: View {
     let favorites: [Hackspace] = [Hackspace(image: "globe", title: "Setion77")]
-    
+
     var body: some View {
         if favorites.isEmpty {
             Text("nicht gefunden")
         } else {
-            HackspaceListView(hackspaces:favorites)
+            HackspaceListView(hackspaces: favorites)
         }
-        
     }
 }
 
 struct BrowseView: View {
-    
-    
     let decoder = JSONDecoder()
 //    let product = try decoder.decode(GroceryProduct.self, from: json)
-    
+
     let hackspaces = [
         Hackspace(image: "globe", title: "Setion77"),
         Hackspace(image: "circle.hexagonpath", title: "entropia"),
         Hackspace(image: "globe", title: "x-hain")
     ]
-    
+
     var body: some View {
-        HackspaceListView(hackspaces:hackspaces)
+        HackspaceListView(hackspaces: hackspaces)
     }
 }
 
@@ -107,30 +106,25 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Text("Hello, Camp!")
-            
-            TabView(selection: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Selection@*/.constant(1)/*@END_MENU_TOKEN@*/) {
+
+            TabView(selection: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Selection@*/ .constant(1)/*@END_MENU_TOKEN@*/) {
                 FavoritesView()
                     .tabItem {
                         Label("Favorites", systemImage: "star.fill")
-                }.tag(1)
-                    BrowseView()
+                    }.tag(1)
+                BrowseView()
                     .tabItem {
                         Label("Browse", systemImage: "globe")
-                }.tag(2)
+                    }.tag(2)
             }.onAppear(perform: {
-                
-                    
-               if let localData = readLocalFile(forName: "spaceapi") {
-                   parse(jsonData: localData)
-               }
-            
-              
-                
+                if let localData = readLocalFile(forName: "spaceapi") {
+                    parse(jsonData: localData)
+                }
+
             })
             .padding()
         }
         .padding()
- 
     }
 }
 
