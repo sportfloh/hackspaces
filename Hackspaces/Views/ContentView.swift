@@ -7,6 +7,45 @@
 
 import SwiftUI
 
+public func readLocalFile(forName name: String) -> Foundation.Data? {
+    do {
+        if let bundlePath = Bundle.main.path(forResource: name, ofType: "json"),
+           let jsonData = try String(contentsOfFile: bundlePath).data(using: .utf8) {
+            return jsonData
+        }
+    } catch {
+        print(error)
+    }
+    return nil
+}
+
+public func parse(jsonData:Foundation.Data) {
+    do {
+        let decodedData = try JSONDecoder().decode(SpaceApi.self, from: jsonData)
+        print("Data Api: ", decodedData.Data.api)
+        print("url: ", decodedData.url)
+        print("====================")
+    } catch {
+        print("decode Error")
+    }
+}
+
+public func loadjson(fromURLString urlString: String,
+                      completion: @escaping (Result<Foundation.Data, Error>) -> Void) {
+    if let url = URL(string: urlString) {
+        let urlSession = URLSession(configuration: .default).dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+            
+            if let data = data {
+                completion(.success(data))
+            }
+        }
+        urlSession.resume()
+    }
+}
+
 struct Hackspace: Hashable, Identifiable{
     var id = UUID()
     var image : String
@@ -46,6 +85,10 @@ struct FavoritesView: View {
 
 struct BrowseView: View {
     
+    
+    let decoder = JSONDecoder()
+//    let product = try decoder.decode(GroceryProduct.self, from: json)
+    
     let hackspaces = [
         Hackspace(image: "globe", title: "Setion77"),
         Hackspace(image: "circle.hexagonpath", title: "entropia"),
@@ -74,7 +117,16 @@ struct ContentView: View {
                     .tabItem {
                         Label("Browse", systemImage: "globe")
                 }.tag(2)
-            }
+            }.onAppear(perform: {
+                
+                    
+               if let localData = readLocalFile(forName: "spaceapi") {
+                   parse(jsonData: localData)
+               }
+            
+              
+                
+            })
             .padding()
         }
         .padding()
