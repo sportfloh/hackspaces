@@ -27,13 +27,11 @@ public func parse(jsonData: Foundation.Data) {
         print("url: ", decodedData.url)
         print("====================")
     } catch {
-        print("decode Error")
+        print(error)
     }
 }
 
-public func loadjson(fromURLString urlString: String,
-                     completion: @escaping (Result<Foundation.Data, Error>) -> Void)
-{
+public func loadjson(fromURLString urlString: String, completion: @escaping (Result<Foundation.Data, Error>) -> Void) {
     if let url = URL(string: urlString) {
         let urlSession = URLSession(configuration: .default).dataTask(with: url) { data, _, error in
             if let error = error {
@@ -53,6 +51,8 @@ struct Hackspace: Hashable, Identifiable {
     var image: String
     var title: String
 }
+
+// MARK: - Views
 
 struct HackspaceListView: View {
     var hackspaces: [Hackspace]
@@ -101,32 +101,28 @@ struct BrowseView: View {
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, Camp!")
-
-            TabView(selection: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Selection@*/ .constant(1)/*@END_MENU_TOKEN@*/) {
-                FavoritesView()
-                    .tabItem {
-                        Label("Favorites", systemImage: "star.fill")
-                    }.tag(1)
-                BrowseView()
-                    .tabItem {
-                        Label("Browse", systemImage: "globe")
-                    }.tag(2)
-            }.onAppear(perform: {
-                if let localData = readLocalFile(forName: "spaceapi") {
-                    parse(jsonData: localData)
+        TabView {
+            FavoritesView()
+                .tabItem {
+                    Label("Favorites", systemImage: "star.fill")
                 }
 
-            })
-            .padding()
-        }
+                .tag(0)
+            BrowseView()
+                .tabItem {
+                    Label("Browse", systemImage: "globe")
+                }
+                .tag(0)
+        }.onAppear(perform: {
+            if let localData = readLocalFile(forName: "spaceapi") {
+                parse(jsonData: localData)
+            }
+        })
         .padding()
     }
 }
+
+// MARK: - Previews
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
