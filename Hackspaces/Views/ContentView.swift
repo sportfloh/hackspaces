@@ -53,7 +53,6 @@ struct Hackspace: Hashable, Identifiable {
 }
 
 // MARK: - Views
-
 struct HackspaceListView: View {
     var hackspaces: [Hackspace]
 
@@ -88,7 +87,7 @@ struct BrowseView: View {
     let decoder = JSONDecoder()
 //    let product = try decoder.decode(GroceryProduct.self, from: json)
 
-    let hackspaces = [
+   let hackspaces = [
         Hackspace(image: "globe", title: "Setion77"),
         Hackspace(image: "circle.hexagonpath", title: "entropia"),
         Hackspace(image: "globe", title: "x-hain")
@@ -123,7 +122,6 @@ struct ContentView: View {
 }
 
 // MARK: - Previews
-
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
