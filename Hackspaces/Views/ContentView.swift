@@ -73,7 +73,7 @@ struct HackspaceListView: View {
 }
 
 struct FavoritesView: View {
-    let favorites: [Hackspace] = [Hackspace(image: "globe", title: "Setion77")]
+    let favorites: [Hackspace] = [Hackspace(image: "globe", title: "Section77")]
 
     var body: some View {
         if favorites.isEmpty {
