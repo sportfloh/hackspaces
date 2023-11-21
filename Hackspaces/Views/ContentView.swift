@@ -6,6 +6,48 @@
 //
 
 import SwiftUI
+import Foundation
+
+func makeAPICall() {
+    // Specify the URL for the API endpoint
+    let apiUrl = URL(string: "https://directory.spaceapi.io")!
+
+    // Create a URL request
+    var request = URLRequest(url: apiUrl)
+    request.httpMethod = "GET"
+
+    // Create a URLSession task
+    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+        // Check for errors
+        if let error = error {
+            print("Error: \(error.localizedDescription)")
+            return
+        }
+
+        // Check if there is data
+        guard let data = data else {
+            print("No data received")
+            return
+        }
+
+        do {
+            // Parse the data using JSONDecoder (replace YourModel.self with your actual data model)
+            let result = try JSONDecoder().decode(DirectoryApi.self, from: data)
+            // Now you can use the 'result' variable to access the data from the API call
+            print("API Result: \(result)")
+
+            // You can store 'result' in a variable, pass it to another function, or do whatever you need
+            // For example, if you have a variable named 'myVariable', you can assign 'result' to it
+            // myVariable = result
+        } catch let jsonError {
+            print("Error decoding JSON: \(jsonError)")
+        }
+    }
+
+    // Start the URLSession task
+    task.resume()
+}
+
 
 public func readLocalFile(forName name: String) -> Foundation.Data? {
     do {
@@ -51,6 +93,7 @@ struct Hackspace: Hashable, Identifiable {
     var image: String
     var title: String
 }
+
 
 // MARK: - Views
 
@@ -99,6 +142,14 @@ struct BrowseView: View {
     }
 }
 
+struct MyTestView: View {
+    var body: some View {
+        Button(action: makeAPICall) {
+            Label("DirectoryAPI", systemImage: "arrow.down")
+        }
+    }
+}
+
 struct ContentView: View {
     var body: some View {
         TabView {
@@ -106,11 +157,15 @@ struct ContentView: View {
                 .tabItem {
                     Label("Favorites", systemImage: "star.fill")
                 }
-
                 .tag(0)
             BrowseView()
                 .tabItem {
                     Label("Browse", systemImage: "globe")
+                }
+                .tag(0)
+            MyTestView()
+                .tabItem {
+                    Label("MyView", systemImage: "checkmark")
                 }
                 .tag(0)
         }.onAppear(perform: {

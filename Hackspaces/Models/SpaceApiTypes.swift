@@ -30,3 +30,12 @@ struct SpaceApi: Codable {
     var lastSeen: Date
     var data: Data
 }
+
+struct DirectoryApi: Decodable {
+    let mappings: [String: String]
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        mappings = try container.decode([String: String].self)
+    }
+}
