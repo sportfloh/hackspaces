@@ -8,22 +8,24 @@
 import Foundation
 /*
 struct Feeds: Codable {
-    var type: String
-    var url: URL
+    var type: String?
+    var url: URL?
 }
 
 struct Contact: Codable {
-    var twitter: String
-    var email: String
+    var twitter: String?
+    var email: String?
 }
 
 struct Data: Codable {
-    var api: String
-    var contact: Contact
-    var feeds: Feeds
-    var issuereportchannels: String
+    var api: String?
+    var space: String?
+    var contact: Contact?
+    // var feeds: Feeds?
+    var issuereportchannels: String?
 }
 
+<<<<<<< Updated upstream
 struct SpaceApi: Codable {
     var url: URL
     var valid: Bool
@@ -32,15 +34,22 @@ struct SpaceApi: Codable {
 }*/
 
 // MARK: - Welcome
-struct SpaceApi: Codable {
-    let url: String
-    let valid: Bool
-    let lastSeen: Int
-    let data: DataClass
-    let validationResult: ValidationResult
 
-    static let allHackspaces: [SpaceApi] = Bundle.main.decode(file: "spaceapi.json")
-    static let sampleHackspace: SpaceApi = allHackspaces[0]
+struct SpaceApi: Decodable, Identifiable {
+    let id = UUID()
+    var url: String?
+    var valid: Bool?
+    var lastSeen: Date?
+    var data: Data?
+}
+
+struct DirectoryApi: Decodable {
+    let mappings: [String: String]
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        mappings = try container.decode([String: String].self)
+    }
 }
 
 // MARK: - DataClass
