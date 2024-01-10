@@ -8,7 +8,7 @@
 import SwiftUI
 import Foundation
 
-func makeAPICall() {
+func makeAPICall(completion: @escaping ([String]?) -> Void) {
     // Specify the URL for the API endpoint
     let apiUrl = URL(string: "https://directory.spaceapi.io")!
 
@@ -33,12 +33,11 @@ func makeAPICall() {
         do {
             // Parse the data using JSONDecoder (replace YourModel.self with your actual data model)
             let result = try JSONDecoder().decode(DirectoryApi.self, from: data)
-            // Now you can use the 'result' variable to access the data from the API call
-            print("API Result: \(result)")
-
-            // You can store 'result' in a variable, pass it to another function, or do whatever you need
-            // For example, if you have a variable named 'myVariable', you can assign 'result' to it
-            // myVariable = result
+            // Use the 'result' variable to access the data from the API call
+            var keys = Array(result.mappings.keys)
+            keys.sort()
+            completion(keys)
+            print("API has been called")
         } catch let jsonError {
             print("Error decoding JSON: \(jsonError)")
         }
@@ -90,7 +89,7 @@ public func loadjson(fromURLString urlString: String, completion: @escaping (Res
 
 struct Hackspace: Hashable, Identifiable {
     var id = UUID()
-    var image: String
+//  var image: String
     var title: String
 }
 
@@ -104,7 +103,7 @@ struct HackspaceListView: View {
         List(hackspaces) {
             let hackspace = $0
             HStack {
-                Image(systemName: hackspace.image)
+                //Image(systemName: hackspace.image)
                 Text(hackspace.title)
             }
         }
@@ -116,7 +115,7 @@ struct HackspaceListView: View {
 }
 
 struct FavoritesView: View {
-    let favorites: [Hackspace] = [Hackspace(image: "globe", title: "Section77")]
+    let favorites: [Hackspace] = [Hackspace(/*image: "globe", */title: "Section77")]
 
     var body: some View {
         if favorites.isEmpty {
@@ -127,28 +126,40 @@ struct FavoritesView: View {
     }
 }
 
-struct BrowseView: View {
-    let decoder = JSONDecoder()
-//    let product = try decoder.decode(GroceryProduct.self, from: json)
 
-    let hackspaces = [
-        Hackspace(image: "globe", title: "Setion77"),
-        Hackspace(image: "circle.hexagonpath", title: "entropia"),
-        Hackspace(image: "globe", title: "x-hain")
-    ]
+struct DirectoryView: View {
 
+    @State private var hackspaceArray: [Hackspace] = []
+    @State private var isRefreshing = false
+    
     var body: some View {
-        HackspaceListView(hackspaces: hackspaces)
+        NavigationView{
+            VStack{
+                HackspaceListView(hackspaces: hackspaceArray)
+                    .refreshable {
+                        await  makeAPICall { [self] result in
+                            if let keys = result {
+                                self.hackspaceArray = keys.map { Hackspace(title: $0) }
+                            }
+                    }
+                    }
+                    .onAppear {
+                        // Load initial data
+                        loadInitialData()
+                    }
+            }
+        }
     }
-}
 
-struct MyTestView: View {
-    var body: some View {
-        Button(action: makeAPICall) {
-            Label("DirectoryAPI", systemImage: "arrow.down")
+    func loadInitialData() {
+        makeAPICall { [self] result in
+            if let keys = result {
+                self.hackspaceArray = keys.map { Hackspace(title: $0) }
+            }
         }
     }
 }
+
 
 struct ContentView: View {
     var body: some View {
@@ -158,21 +169,16 @@ struct ContentView: View {
                     Label("Favorites", systemImage: "star.fill")
                 }
                 .tag(0)
-            BrowseView()
+            DirectoryView()
                 .tabItem {
                     Label("Browse", systemImage: "globe")
                 }
                 .tag(0)
-            MyTestView()
-                .tabItem {
-                    Label("MyView", systemImage: "checkmark")
-                }
-                .tag(0)
-        }.onAppear(perform: {
+        }/*.onAppear(perform: {
             if let localData = readLocalFile(forName: "spaceapi") {
                 parse(jsonData: localData)
             }
-        })
+        })*/
         .padding()
     }
 }
