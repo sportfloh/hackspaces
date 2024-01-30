@@ -5,8 +5,8 @@
 //  Created by Florian Bruder and Christian Werner on 15.08.23.
 //
 
-import SwiftUI
 import Foundation
+import SwiftUI
 
 func makeAPICall(completion: @escaping ([String]?) -> Void) {
     // Specify the URL for the API endpoint
@@ -17,7 +17,7 @@ func makeAPICall(completion: @escaping ([String]?) -> Void) {
     request.httpMethod = "GET"
 
     // Create a URLSession task
-    let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+    let task = URLSession.shared.dataTask(with: request) { data, _, error in
         // Check for errors
         if let error = error {
             print("Error: \(error.localizedDescription)")
@@ -46,7 +46,6 @@ func makeAPICall(completion: @escaping ([String]?) -> Void) {
     // Start the URLSession task
     task.resume()
 }
-
 
 public func readLocalFile(forName name: String) -> Foundation.Data? {
     do {
@@ -89,10 +88,9 @@ public func loadjson(fromURLString urlString: String, completion: @escaping (Res
 
 struct Hackspace: Hashable, Identifiable {
     var id = UUID()
-//  var image: String
+    //  var image: String
     var title: String
 }
-
 
 // MARK: - Views
 
@@ -103,7 +101,7 @@ struct HackspaceListView: View {
         List(hackspaces) {
             let hackspace = $0
             HStack {
-                //Image(systemName: hackspace.image)
+                // Image(systemName: hackspace.image)
                 Text(hackspace.title)
             }
         }
@@ -115,7 +113,7 @@ struct HackspaceListView: View {
 }
 
 struct FavoritesView: View {
-    let favorites: [Hackspace] = [Hackspace(/*image: "globe", */title: "Section77")]
+    let favorites: [Hackspace] = [Hackspace( /* image: "globe", */ title: "Section77")]
 
     var body: some View {
         if favorites.isEmpty {
@@ -126,22 +124,20 @@ struct FavoritesView: View {
     }
 }
 
-
 struct DirectoryView: View {
-
     @State private var hackspaceArray: [Hackspace] = []
     @State private var isRefreshing = false
-    
+
     var body: some View {
-        NavigationView{
-            VStack{
+        NavigationView {
+            VStack {
                 HackspaceListView(hackspaces: hackspaceArray)
                     .refreshable {
-                        await  makeAPICall { [self] result in
+                        await makeAPICall { [self] result in
                             if let keys = result {
                                 self.hackspaceArray = keys.map { Hackspace(title: $0) }
                             }
-                    }
+                        }
                     }
                     .onAppear {
                         // Load initial data
@@ -160,7 +156,6 @@ struct DirectoryView: View {
     }
 }
 
-
 struct ContentView: View {
     var body: some View {
         TabView {
@@ -174,11 +169,11 @@ struct ContentView: View {
                     Label("Browse", systemImage: "globe")
                 }
                 .tag(0)
-        }/*.onAppear(perform: {
-            if let localData = readLocalFile(forName: "spaceapi") {
-                parse(jsonData: localData)
-            }
-        })*/
+        } /* .onAppear(perform: {
+             if let localData = readLocalFile(forName: "spaceapi") {
+                 parse(jsonData: localData)
+             }
+         }) */
         .padding()
     }
 }
