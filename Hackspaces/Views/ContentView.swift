@@ -133,7 +133,7 @@ struct DirectoryView: View {
             VStack {
                 HackspaceListView(hackspaces: hackspaceArray)
                     .refreshable {
-                        await makeAPICall { [self] result in
+                        makeAPICall { [self] result in
                             if let keys = result {
                                 self.hackspaceArray = keys.map { Hackspace(title: $0) }
                             }
