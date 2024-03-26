@@ -7,35 +7,21 @@
 
 import Foundation
 
-struct Feeds: Codable {
-    var type: String
-    var url: URL
+struct Location: Codable {
+    var address: String
+    var lat: Double
+    var lon: Double
 }
 
-struct Contact: Codable {
-    var twitter: String
-    var email: String
-}
-
-struct Data: Codable {
-    var api: String
-    var contact: Contact
-    var feeds: Feeds
-    var issuereportchannels: String
-}
 
 struct SpaceApi: Codable {
+    var space: String
+    var logo: URL?
     var url: URL
-    var valid: Bool
-    var lastSeen: Date
-    var data: Data
-}
+    var location: Location
+    var state: spaceState
 
-struct DirectoryApi: Decodable {
-    let mappings: [String: String]
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        mappings = try container.decode([String: String].self)
+    struct spaceState: Codable {
+        var open: Bool
     }
 }
