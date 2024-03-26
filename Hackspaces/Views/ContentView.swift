@@ -9,14 +9,12 @@ import Foundation
 import SwiftUI
 
 func makeDirectoryAPICall(completion: @escaping ([(name: String, apiUrl: String)]?) -> Void) {
-    // Specify the URL for the API endpoint
+    // URL for the Directory API endpoint
     let apiUrl = URL(string: "https://directory.spaceapi.io")!
 
-    // Create a URL request
     var request = URLRequest(url: apiUrl)
     request.httpMethod = "GET"
 
-    // Create a URLSession task
     let task = URLSession.shared.dataTask(with: request) { data, _, error in
         // Check for errors
         if let error = error {
@@ -40,7 +38,6 @@ func makeDirectoryAPICall(completion: @escaping ([(name: String, apiUrl: String)
         }
     }
 
-    // Start the URLSession task
     task.resume()
 }
 
@@ -95,16 +92,32 @@ public func readLocalFile(forName name: String) -> Foundation.Data? {
     return nil
 }
 
+func getHackSpaceLogo(from logoURL:URL, completion: @escaping (Result<UIImage, Error>) -> Void){
+    URLSession.shared.dataTask(with: logoURL) { data, response, error in
+        if let error = error {
+            completion(.failure(error))
+            return
+        }
+        guard let data = data, let image = UIImage(data: data) else {
+            completion(.failure(NSError(domain: "", code: 0, userInfo: nil)))
+            return
+        }
+        completion(.success(image))
+    }.resume()
+}
+
+/*
 public func parse(jsonData: Foundation.Data) {
     do {
         let decodedData = try JSONDecoder().decode(SpaceApi.self, from: jsonData)
-        //print("Data Api: ", decodedData.data.api)
-        //print("url: ", decodedData.url)
-        //print("====================")
+        print("Data Api: ", decodedData.data.api)
+        print("url: ", decodedData.url)
+        print("====================")
     } catch {
         print(error)
     }
 }
+ */
 
 public func loadjson(fromURLString urlString: String, completion: @escaping (Result<Foundation.Data, Error>) -> Void) {
     if let url = URL(string: urlString) {
@@ -155,7 +168,6 @@ struct HackspaceListView: View {
 struct FavoritesView: View {
     let favorites: [Hackspace] = [
         Hackspace(title: "Section77", apiUrl: "https://api.section77.de"),
-        // Add more favorite hackspaces as needed
     ]
     
     @State private var selectedHackspace: Hackspace?
@@ -187,13 +199,11 @@ struct DirectoryView: View {
                         directoryAPIWrapper()
                     }
                     .onAppear {
-                        // Load initial data
                         directoryAPIWrapper()
                     }
             }
             .navigationTitle("Hackspaces")
             .sheet(item: $selectedHackspace) { hackspace in
-                // Show details for selected hackspace
                 HackspaceDetailView(hackspace: hackspace)
             }
         }
@@ -208,18 +218,7 @@ struct DirectoryView: View {
     }
 
     func selectHackspace(_ hackspace: Hackspace) {
-        // Call individual API for the selected hackspace
         self.selectedHackspace = hackspace
-        /*
-        makeSpaceAPICall(for: hackspace.apiUrl) { apiData in
-            // Handle API response for the selected hackspace
-            if let apiData = apiData {
-                // Update selectedHackspace with details if needed
-                
-                print("API data for \(hackspace.title): \(apiData)")
-            }
-        }
-         */
     }
 }
 
@@ -248,43 +247,103 @@ struct ContentView: View {
                                             
 struct HackspaceDetailView: View {
     let hackspace: Hackspace
-    @State private var apiResponse: String = "Loading..." // Initial value for API response
+    @State private var logoImage: UIImage?
+    @State private var spaceApi: SpaceApi?
+    @State private var isLoading: Bool = false
+    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        VStack {
-            Text("Hackspace Detail: \(hackspace.title)")
-                .font(.title)
-                .padding()
+        VStack() {
+            
+            HStack {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                    .resizable()
+                    .frame(width: 15, height: 10)
+                    .foregroundColor(.blue)
+                }
+                Text(hackspace.title)
+                    .font(.title)
+                    .padding(.vertical)
+                if let isOpen = spaceApi?.state.open {
+                    Image(systemName: isOpen ? "circle.fill" : "circle")
+                        .foregroundColor(isOpen ? .green : .red)
+                        .padding(.top, 5)
+                }
+            }
 
-            TextField("API Response", text: $apiResponse)
-                .disabled(true) // Make the TextField read-only
+            if isLoading {
+                ProgressView() // Show loading indicator
+            } else {
+                if let spaceApi = spaceApi {
+                    Text("Address: \(spaceApi.location.address)")
+                    Text("Contact:")
+                    if let image = logoImage {
+                        Image(uiImage: image)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 50, height: 50)
+                    } else {
+                            if isLoading {
+                                ProgressView()
+                            } else {
+                                Text("Logo not available")
+                            }
+                    }
+                } else {
+                    Text("Error fetching data")
+                }
+            }
+
+            Spacer()
 
             Button("Call API") {
                 spaceAPIWrapper()
             }
-            .padding()
+            Button("Download Logo") {
+                downloadLogoWrapper(from: (spaceApi?.logo)!)
+            }
         }
+        .padding()
         .onAppear {
-            // Optionally, you can make the API call when the view appears
-            // makeAPICall()
+            spaceAPIWrapper()
+        }
+    }
+
+    func spaceAPIWrapper() {
+        isLoading = true
+
+        makeSpaceAPICall(for: hackspace.apiUrl) { spaceApi in
+            isLoading = false
+
+            if let spaceApi = spaceApi {
+                self.spaceApi = spaceApi
+                print("API data for \(hackspace.title): \(spaceApi)")
+            } else {
+                print("Error fetching data")
+            }
         }
     }
     
-    func spaceAPIWrapper() {
-            makeSpaceAPICall(for: hackspace.apiUrl) { spaceApi in
-                if let spaceApi = spaceApi {
-                    // Update UI with API response data
-                    DispatchQueue.main.async {
-                        self.apiResponse = "\(spaceApi)" // Update API response text
-                    }
-                    print("API data for \(hackspace.title): \(spaceApi)")
-                } else {
-                    // Handle API call failure
-                    self.apiResponse = "Error fetching data"
+    func downloadLogoWrapper(from url: URL) {
+        isLoading = true
+        
+        getHackSpaceLogo(from: url) { result in
+            DispatchQueue.main.async {
+                isLoading = false
+                switch result {
+                    case .success(let image):
+                        logoImage = image
+                    case .failure(let error):
+                        print("Error downloading image: \(error)")
                 }
             }
         }
+    }
 }
+
                                              
                         
 

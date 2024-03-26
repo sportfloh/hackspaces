@@ -7,24 +7,21 @@
 
 import Foundation
 
-struct Feeds: Codable {
-    var type: String
-    var url: URL
+struct Location: Codable {
+    var address: String
+    var lat: Double
+    var lon: Double
 }
 
-struct Contact: Codable {
-    var twitter: String
-    var email: String
-}
-
-struct Data: Codable {
-    var api: String
-    var contact: Contact
-    var feeds: Feeds
-    var issuereportchannels: String
-}
 
 struct SpaceApi: Codable {
     var space: String
-    var logo: String
+    var logo: URL?
+    var url: URL
+    var location: Location
+    var state: spaceState
+
+    struct spaceState: Codable {
+        var open: Bool
+    }
 }
