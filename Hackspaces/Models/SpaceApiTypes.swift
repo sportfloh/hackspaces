@@ -18,9 +18,9 @@ struct SpaceApi: Codable {
     var logo: URL?
     var url: URL
     var location: Location
-    var state: spaceState
+    var state: SpaceState
 
-    struct spaceState: Codable {
+    struct SpaceState: Codable {
         var open: Bool
     }
 }
