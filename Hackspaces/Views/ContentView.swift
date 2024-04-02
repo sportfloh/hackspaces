@@ -49,11 +49,11 @@ func makeSpaceAPICall(for apiUrl: String, completion: @escaping (SpaceApi?) -> V
     }
 
     let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                print("Error: \(error.localizedDescription)")
-                completion(nil)
-                return
-            }
+        if let error = error {
+            print("Error: \(error.localizedDescription)")
+            completion(nil)
+            return
+        }
 
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             print("Invalid response or status code")
@@ -92,8 +92,8 @@ public func readLocalFile(forName name: String) -> Foundation.Data? {
     return nil
 }
 
-func getHackSpaceLogo(from logoURL:URL, completion: @escaping (Result<UIImage, Error>) -> Void){
-    URLSession.shared.dataTask(with: logoURL) { data, response, error in
+func getHackSpaceLogo(from logoURL: URL, completion: @escaping (Result<UIImage, Error>) -> Void) {
+    URLSession.shared.dataTask(with: logoURL) { data, _, error in
         if let error = error {
             completion(.failure(error))
             return
@@ -107,17 +107,17 @@ func getHackSpaceLogo(from logoURL:URL, completion: @escaping (Result<UIImage, E
 }
 
 /*
-public func parse(jsonData: Foundation.Data) {
-    do {
-        let decodedData = try JSONDecoder().decode(SpaceApi.self, from: jsonData)
-        print("Data Api: ", decodedData.data.api)
-        print("url: ", decodedData.url)
-        print("====================")
-    } catch {
-        print(error)
-    }
-}
- */
+ public func parse(jsonData: Foundation.Data) {
+     do {
+         let decodedData = try JSONDecoder().decode(SpaceApi.self, from: jsonData)
+         print("Data Api: ", decodedData.data.api)
+         print("url: ", decodedData.url)
+         print("====================")
+     } catch {
+         print(error)
+     }
+ }
+  */
 
 public func loadjson(fromURLString urlString: String, completion: @escaping (Result<Foundation.Data, Error>) -> Void) {
     if let url = URL(string: urlString) {
@@ -164,12 +164,11 @@ struct HackspaceListView: View {
     }
 }
 
-
 struct FavoritesView: View {
     let favorites: [Hackspace] = [
-        Hackspace(title: "Section77", apiUrl: "https://api.section77.de"),
+        Hackspace(title: "Section77", apiUrl: "https://api.section77.de")
     ]
-    
+
     @State private var selectedHackspace: Hackspace?
 
     var body: some View {
@@ -184,7 +183,6 @@ struct FavoritesView: View {
         }
     }
 }
-
 
 struct DirectoryView: View {
     @State private var hackspaceArray: [Hackspace] = []
@@ -218,10 +216,9 @@ struct DirectoryView: View {
     }
 
     func selectHackspace(_ hackspace: Hackspace) {
-        self.selectedHackspace = hackspace
+        selectedHackspace = hackspace
     }
 }
-
 
 struct ContentView: View {
     var body: some View {
@@ -244,7 +241,7 @@ struct ContentView: View {
         .padding()
     }
 }
-                                            
+
 struct HackspaceDetailView: View {
     let hackspace: Hackspace
     @State private var logoImage: UIImage?
@@ -253,16 +250,15 @@ struct HackspaceDetailView: View {
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
-        VStack() {
-            
+        VStack {
             HStack {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     Image(systemName: "chevron.left")
-                    .resizable()
-                    .frame(width: 15, height: 10)
-                    .foregroundColor(.blue)
+                        .resizable()
+                        .frame(width: 15, height: 10)
+                        .foregroundColor(.blue)
                 }
                 Text(hackspace.title)
                     .font(.title)
@@ -282,15 +278,15 @@ struct HackspaceDetailView: View {
                     Text("Contact:")
                     if let image = logoImage {
                         Image(uiImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 50, height: 50)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 50, height: 50)
                     } else {
-                            if isLoading {
-                                ProgressView()
-                            } else {
-                                Text("Logo not available")
-                            }
+                        if isLoading {
+                            ProgressView()
+                        } else {
+                            Text("Logo not available")
+                        }
                     }
                 } else {
                     Text("Error fetching data")
@@ -326,10 +322,10 @@ struct HackspaceDetailView: View {
             }
         }
     }
-    
+
     func downloadLogoWrapper(from url: URL) {
         isLoading = true
-        
+
         getHackSpaceLogo(from: url) { result in
             DispatchQueue.main.async {
                 isLoading = false
@@ -343,9 +339,6 @@ struct HackspaceDetailView: View {
         }
     }
 }
-
-                                             
-                        
 
 // MARK: - Previews
 

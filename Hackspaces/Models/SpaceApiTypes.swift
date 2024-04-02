@@ -13,7 +13,6 @@ struct Location: Codable {
     var lon: Double
 }
 
-
 struct SpaceApi: Codable {
     var space: String
     var logo: URL?
