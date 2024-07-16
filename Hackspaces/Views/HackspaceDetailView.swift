@@ -7,99 +7,90 @@
 import SwiftUI
 
 struct HackspaceDetailView: View {
-    let hackspace: Hackspace
-    @State private var logoImage: UIImage?
-    @State private var spaceApi: SpaceApi?
-    @State private var isLoading: Bool = false
-    @Environment(\.presentationMode) var presentationMode
+  let hackspace: Hackspace
+  @State private var spaceApi: SpaceApi?
+  @State private var logoImage: UIImage?
+  @State private var isLoading = false // Flag for overall data fetching
+  @State private var isDownloadingLogo = false
 
-    var body: some View {
-        VStack {
-            HStack {
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .resizable()
-                        .frame(width: 15, height: 10)
-                        .foregroundColor(.blue)
-                }
-                Text(hackspace.title)
-                    .font(.title)
-                    .padding(.vertical)
-                if let isOpen = spaceApi?.state.open {
-                    Image(systemName: isOpen ? "circle.fill" : "circle")
-                        .foregroundColor(isOpen ? .green : .red)
-                        .padding(.top, 5)
-                }
+  var body: some View {
+    NavigationView { // Wrap in NavigationView for consistent navigation
+      ScrollView { // Wrap in ScrollView for scrollable content
+        VStack(alignment: .leading) { // Align content to leading edge
+
+          HStack {
+            if let image = logoImage {
+              Image(uiImage: image)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 50, height: 50)
             }
-
-            if isLoading {
-                ProgressView()
-            } else {
-                if let spaceApi = spaceApi {
-                    Text("Address: \(spaceApi.location.address)")
-                    Text("Contact:")
-                    if let image = logoImage {
-                        Image(uiImage: image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 50, height: 50)
-                    } else {
-                        if isLoading {
-                            ProgressView()
-                        } else {
-                            Text("Logo not available")
-                        }
-                    }
-                } else {
-                    Text("Error fetching data")
-                }
-            }
-
+            Text(hackspace.title)
+              .font(.title)
+              .fontWeight(.bold) // Use bold weight for title
             Spacer()
+            if let isOpen = spaceApi?.state.open {
+              Image(systemName: isOpen ? "circle.fill" : "circle")
+                .foregroundColor(isOpen ? .green : .red)
+            }
+          }
 
-            Button("Call API") {
-                spaceAPIWrapper()
-            }
-            Button("Download Logo") {
-                downloadLogoWrapper(from: (spaceApi?.logo)!)
-            }
+          if let spaceApi = spaceApi {
+            Text("Address: \(spaceApi.location.address)")
+              .padding(.top) // Add top padding for spacing
+          } else {
+            Text("Error fetching data")
+          }
+
+          Spacer() // Add spacer at the bottom for aesthetics
         }
-        .padding()
-        .onAppear {
-            spaceAPIWrapper()
-        }
+        .padding() // Pad content within the VStack
+      }
+      .navigationTitle(hackspace.title) // Set navigation title
     }
-
-    func spaceAPIWrapper() {
-        isLoading = true
-
-        APIService.makeSpaceAPICall(for: hackspace.apiUrl) { spaceApi in
-            isLoading = false
-
-            if let spaceApi = spaceApi {
-                self.spaceApi = spaceApi
-                print("API data for \(hackspace.title): \(spaceApi)")
-            } else {
-                print("Error fetching data")
-            }
-        }
+    .onAppear {
+      loadSpaceApi()
     }
+  }
 
-    func downloadLogoWrapper(from url: URL) {
-        isLoading = true
-
-        APIService.getHackSpaceLogo(from: url) { result in
+  private func loadSpaceApi() {
+    isLoading = true // Set isLoading to true before starting API call
+    // Replace with your actual API call logic
+    APIService.makeSpaceAPICall(for: hackspace.apiUrl) { [self] spaceApi in
+      isLoading = false // Set isLoading to false after receiving data
+      if let spaceApi = spaceApi {
+        self.spaceApi = spaceApi
+        // Check if logo URL is available after loading API data
+        if let logoUrl = spaceApi.logo {
+          isDownloadingLogo = true
+          downloadLogoWrapper(from: logoUrl) { [self] result in
             DispatchQueue.main.async {
-                isLoading = false
-                switch result {
-                    case .success(let image):
-                        logoImage = image
-                    case .failure(let error):
-                        print("Error downloading image: \(error)")
-                }
+              isDownloadingLogo = false
+              switch result {
+              case .success(let image):
+                logoImage = image
+              case .failure(let error):
+                print("Error downloading image: \(error)")
+              }
             }
+          }
         }
+      } else {
+        print("Error fetching data")
+      }
     }
+  }
+
+  func downloadLogoWrapper(from url: URL, completion: @escaping (Result<UIImage, Error>) -> Void) {
+    // Replace with your actual image download logic
+    APIService.getHackSpaceLogo(from: url) { result in
+      DispatchQueue.main.async {
+        completion(result)
+      }
+    }
+  }
 }
+
+
+
+
