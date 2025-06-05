@@ -16,14 +16,6 @@ struct HackspaceDetailView: View {
     var body: some View {
         VStack {
             HStack {
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .resizable()
-                        .frame(width: 15, height: 10)
-                        .foregroundColor(.blue)
-                }
                 Text(hackspace.title)
                     .font(.title)
                     .padding(.vertical)
@@ -59,9 +51,6 @@ struct HackspaceDetailView: View {
 
             Spacer()
 
-            Button("Call API") {
-                spaceAPIWrapper()
-            }
             Button("Download Logo") {
                 downloadLogoWrapper(from: (spaceApi?.logo)!)
             }

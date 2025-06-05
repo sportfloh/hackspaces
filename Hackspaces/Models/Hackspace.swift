@@ -11,4 +11,3 @@ struct Hackspace: Hashable, Identifiable {
     var title: String
     var apiUrl: String
 }
-

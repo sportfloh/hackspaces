@@ -7,7 +7,6 @@
 
 import Foundation
 
-import Foundation
 import UIKit
 
 struct APIService {
@@ -93,4 +92,3 @@ struct APIService {
         }.resume()
     }
 }
-

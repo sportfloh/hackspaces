@@ -13,8 +13,7 @@ struct DirectoryView: View {
     @State private var isRefreshing = false
 
     var body: some View {
-        NavigationView {
-            VStack {
+        NavigationStack {
                 HackspaceListView(hackspaces: hackspaceArray, onSelectHackspace: selectHackspace)
                     .refreshable {
                         directoryAPIWrapper()
@@ -22,11 +21,11 @@ struct DirectoryView: View {
                     .onAppear {
                         directoryAPIWrapper()
                     }
+            .navigationDestination(item: $selectedHackspace) { hackspace in
+                HackspaceDetailView(hackspace: hackspace)
+
             }
             .navigationTitle("Hackspaces")
-            .sheet(item: $selectedHackspace) { hackspace in
-                HackspaceDetailView(hackspace: hackspace)
-            }
         }
     }
 
@@ -42,4 +41,3 @@ struct DirectoryView: View {
         selectedHackspace = hackspace
     }
 }
-
