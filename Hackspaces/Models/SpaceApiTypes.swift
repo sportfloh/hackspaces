@@ -7,6 +7,13 @@
 
 import Foundation
 
+struct Contact: Codable {
+    var email: String?
+    var irc: String?
+    var mastodon: String?
+    var mumble: String?
+}
+
 struct Location: Codable {
     var address: String
     var lat: Double
@@ -19,6 +26,7 @@ struct SpaceApi: Codable {
     var url: URL
     var location: Location
     var state: SpaceState
+    var contact: Contact
 
     struct SpaceState: Codable {
         var open: Bool
