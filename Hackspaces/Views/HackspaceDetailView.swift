@@ -30,8 +30,64 @@ struct HackspaceDetailView: View {
                 ProgressView()
             } else {
                 if let spaceApi = spaceApi {
-                    Text("Address: \(spaceApi.location.address)")
+                    VStack(alignment: .leading, spacing: 0) {
+                        Label("Address:", systemImage: "none")
+                            .labelStyle(.titleOnly)
+                            .underline()
+                        Text((spaceApi.location.address))
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.bottom, 10)
+
                     Text("Contact:")
+                        .font(.title3.bold())
+                        .padding(.bottom, 10)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    if spaceApi.contact.email != nil {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Label("E-Mail:", systemImage: "none")
+                                .labelStyle(.titleOnly)
+                                .underline()
+                            Text((spaceApi.contact.email!))
+
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 10)
+                    }
+                    if spaceApi.contact.irc != nil {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Label("IRC:", systemImage: "none")
+                                .labelStyle(.titleOnly)
+                                .underline()
+                            Text((spaceApi.contact.irc)!)
+
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 10)
+                    }
+                    if spaceApi.contact.mastodon != nil {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Label("Mastodon:", systemImage: "none")
+                                .labelStyle(.titleOnly)
+                                .underline()
+                            Text((spaceApi.contact.mastodon)!)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 10)
+                    }
+                    if spaceApi.contact.mumble != nil {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Label("Mumble:", systemImage: "none")
+                                .labelStyle(.titleOnly)
+                                .underline()
+                            Text((spaceApi.contact.mumble)!)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 10)
+                    }
+                    // Link((spaceApi.contact.email), destination: URL(string: "mailto:\(spaceApi.contact.email)")!)
+
                     if let image = logoImage {
                         Image(uiImage: image)
                             .resizable()
@@ -41,9 +97,10 @@ struct HackspaceDetailView: View {
                         if isLoading {
                             ProgressView()
                         } else {
-                            Text("Logo not available")
+                   //         Text("Logo not available")
                         }
                     }
+
                 } else {
                     Text("Error fetching data")
                 }
