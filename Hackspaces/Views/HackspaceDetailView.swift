@@ -34,7 +34,7 @@ struct HackspaceDetailView: View {
                         Label("Address:", systemImage: "none")
                             .labelStyle(.titleOnly)
                             .underline()
-                        Text((spaceApi.location.address))
+                        Text(spaceApi.location.address)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 10)
@@ -49,8 +49,7 @@ struct HackspaceDetailView: View {
                             Label("E-Mail:", systemImage: "none")
                                 .labelStyle(.titleOnly)
                                 .underline()
-                            Text((spaceApi.contact.email!))
-
+                            Text(spaceApi.contact.email!)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.bottom, 10)
@@ -61,7 +60,6 @@ struct HackspaceDetailView: View {
                                 .labelStyle(.titleOnly)
                                 .underline()
                             Text((spaceApi.contact.irc)!)
-
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.bottom, 10)
@@ -97,7 +95,7 @@ struct HackspaceDetailView: View {
                         if isLoading {
                             ProgressView()
                         } else {
-                   //         Text("Logo not available")
+                            //         Text("Logo not available")
                         }
                     }
 
@@ -140,10 +138,10 @@ struct HackspaceDetailView: View {
             DispatchQueue.main.async {
                 isLoading = false
                 switch result {
-                    case .success(let image):
-                        logoImage = image
-                    case .failure(let error):
-                        print("Error downloading image: \(error)")
+                case .success(let image):
+                    logoImage = image
+                case .failure(let error):
+                    print("Error downloading image: \(error)")
                 }
             }
         }

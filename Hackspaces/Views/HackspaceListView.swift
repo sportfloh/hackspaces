@@ -15,9 +15,9 @@ struct HackspaceListView: View {
             HStack {
                 Button(action: {
                     self.onSelectHackspace(hackspace)
-                }) {
+                }, label: {
                     Text(hackspace.title)
-                }
+                })
             }
         }
     }
