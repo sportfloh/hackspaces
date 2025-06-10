@@ -9,9 +9,10 @@ import SwiftUI
 struct HackspaceListView: View {
     var hackspaces: [Hackspace]
     var onSelectHackspace: (Hackspace) -> Void
+    @State var searchKeyword: String = ""
 
     var body: some View {
-        List(hackspaces) { hackspace in
+        List(searchResults.sorted { $0.title < $1.title } ) { hackspace in
             HStack {
                 Button(action: {
                     self.onSelectHackspace(hackspace)
@@ -20,10 +21,24 @@ struct HackspaceListView: View {
                 })
             }
         }
+        .searchable(text: $searchKeyword, prompt: "Search for Hackspaces")
+
+    }
+
+    var searchResults: [Hackspace] {
+        if searchKeyword.isEmpty {
+            return hackspaces
+        } else {
+            return hackspaces.filter { $0.title.lowercased().contains(searchKeyword.lowercased()) }
+        }
     }
 
     init(hackspaces: [Hackspace], onSelectHackspace: @escaping (Hackspace) -> Void) {
         self.hackspaces = hackspaces
         self.onSelectHackspace = onSelectHackspace
     }
+}
+
+#Preview {
+    DirectoryView()
 }

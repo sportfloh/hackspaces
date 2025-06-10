@@ -14,13 +14,13 @@ struct DirectoryView: View {
 
     var body: some View {
         NavigationStack {
-                HackspaceListView(hackspaces: hackspaceArray, onSelectHackspace: selectHackspace)
-                    .refreshable {
-                        directoryAPIWrapper()
-                    }
-                    .onAppear {
-                        directoryAPIWrapper()
-                    }
+            HackspaceListView(hackspaces: hackspaceArray, onSelectHackspace: selectHackspace)
+                .refreshable {
+                    directoryAPIWrapper()
+                }
+                .onAppear {
+                    directoryAPIWrapper()
+                }
             .navigationDestination(item: $selectedHackspace) { hackspace in
                 HackspaceDetailView(hackspace: hackspace)
 
