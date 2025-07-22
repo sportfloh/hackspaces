@@ -12,7 +12,7 @@ struct HackspaceListView: View {
     @State var searchKeyword: String = ""
 
     var body: some View {
-        List(searchResults.sorted { $0.title < $1.title } ) { hackspace in
+        List(searchResults.sorted { $0.title < $1.title }) { hackspace in
             HStack {
                 Button(action: {
                     self.onSelectHackspace(hackspace)

@@ -12,6 +12,7 @@ struct Contact: Codable {
     var irc: String?
     var mastodon: String?
     var mumble: String?
+    var twitter: String?
 }
 
 struct Location: Codable {
@@ -22,6 +23,7 @@ struct Location: Codable {
 
 struct SpaceApi: Codable {
     var space: String
+    var ext_ccc: String?
     var logo: URL?
     var url: URL
     var location: Location
