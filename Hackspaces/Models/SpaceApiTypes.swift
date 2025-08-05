@@ -23,6 +23,7 @@ struct Location: Codable {
 
 struct SpaceApi: Codable {
     var space: String
+    // swiftlint:disable:next identifier_name
     var ext_ccc: String?
     var logo: URL?
     var url: URL
