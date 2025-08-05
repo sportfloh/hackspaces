@@ -5,6 +5,7 @@
 //  Created by Nithin Chelliya on 18.06.24.
 //
 import SwiftUI
+import MapKit
 
 struct HackspaceDetailView: View {
     let hackspace: Hackspace
@@ -30,26 +31,49 @@ struct HackspaceDetailView: View {
                 ProgressView()
             } else {
                 if let spaceApi = spaceApi {
+                    if spaceApi.ext_ccc != nil {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Label("CCC:", systemImage: "none")
+                                .labelStyle(.titleOnly)
+                                .underline()
+                            Text(spaceApi.ext_ccc!)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.bottom, 10)
+                    }
+
                     VStack(alignment: .leading, spacing: 0) {
                         Label("Address:", systemImage: "none")
                             .labelStyle(.titleOnly)
                             .underline()
                         Text(spaceApi.location.address)
+                        Map(initialPosition: MapCameraPosition.region(
+                            MKCoordinateRegion(
+                                center: CLLocationCoordinate2D(latitude: spaceApi.location.lat, longitude: spaceApi.location.lon),
+                                span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+                            )
+                        )) {
+                                Marker(hackspace.title, coordinate: CLLocationCoordinate2D(latitude: spaceApi.location.lat, longitude: spaceApi.location.lon))
+                            }
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.bottom, 10)
 
-                    Text("Contact:")
-                        .font(.title3.bold())
-                        .padding(.bottom, 10)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Contact:")
+                            .font(.title3.bold())
+                            .padding(.bottom, 10)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
 
                     if spaceApi.contact.email != nil {
                         VStack(alignment: .leading, spacing: 0) {
                             Label("E-Mail:", systemImage: "none")
                                 .labelStyle(.titleOnly)
                                 .underline()
-                            Text(spaceApi.contact.email!)
+                            Link(spaceApi.contact.email!,
+                                 destination: URL(string: "mailto:" + spaceApi.contact.email!)!)
+                            // Text(spaceApi.contact.email!)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.bottom, 10)
